@@ -1,8 +1,18 @@
+from pathlib import Path
+
 import pandas as pd
 
 
-def load_energy_data(path):
-    df = pd.read_csv(path)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_DATA_PATH = PROJECT_ROOT / "data" / "time_series_60min_singleindex.csv"
+
+
+def load_energy_data(path=None):
+    csv_path = Path(path) if path is not None else DEFAULT_DATA_PATH
+    if not csv_path.is_absolute():
+        csv_path = (PROJECT_ROOT / csv_path).resolve()
+
+    df = pd.read_csv(csv_path)
 
     # Convert utc_timestamp columns into pandas datetime objects(from txt to pandas datetime values)
     df["utc_timestamp"] = pd.to_datetime(df["utc_timestamp"])
@@ -30,8 +40,7 @@ def load_energy_data(path):
 
 
 if __name__ == "__main__":
-    path = "../data/time_series_60min_singleindex.csv"
-    df = load_energy_data(path)
+    df = load_energy_data()
 
     print("Shape of the dataset:", df.shape)
     print("\nCloumns:", df.columns)
