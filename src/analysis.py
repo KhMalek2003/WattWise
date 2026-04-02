@@ -9,6 +9,9 @@ def run_eda():
 
     # Handle missing values
     df = df.fillna(method="ffill")
+    df = df.fillna(
+        method="bfill"
+    )  # In case there are still missing values at the start
     print("Missing values after cleaning:\n", df.isnull().sum())
 
     # -------------------------------
