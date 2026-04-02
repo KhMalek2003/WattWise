@@ -21,7 +21,7 @@ def create_features():
     # 2. Energy Balance
     # -----------------------
 
-    df["balance"] = df["renewable"] - df["load"]
+    df["renewable_balance"] = df["renewable"] - df["load"]
 
     # -----------------------
     # 3. Demand/Supply Ratio
@@ -33,8 +33,8 @@ def create_features():
     # 4. Deficit / Surplus Flags
     # -----------------------
 
-    df["deficit"] = df["balance"] < 0
-    df["surplus"] = df["balance"] > 0
+    df["deficit"] = df["renewable_balance"] < 0
+    df["surplus"] = df["renewable_balance"] > 0
 
     # -----------------------
     # 5. Peak Indicator
@@ -50,7 +50,7 @@ def create_features():
                 "solar",
                 "wind",
                 "renewable",
-                "balance",
+                "renewable_balance",
                 "ratio",
                 "deficit",
                 "surplus",
