@@ -2,8 +2,9 @@ import pandas as pd
 from feature_engineering import create_features
 
 
-def run_optimization():
-    df = create_features()
+def run_optimization(df=None):
+    if df is None:
+        df = create_features()
 
     # --------------------------------
     # Battery Configuration
