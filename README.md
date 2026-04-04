@@ -6,15 +6,6 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 
----
-
-## 📸 Dashboard Preview
-
----
-
-![Dashboard](assets/Screenshot_1.png)
-![Dashboard](assets/Screenshot_2.png)
-![Dashboard](assets/Screenshot_3.png)
 
 ---
 
@@ -31,9 +22,17 @@ This project reflects real challenges faced by companies like Siemens Energy in 
 
 ## 🧠 System Architecture
 
----
 
 Raw Data → Data Loader → Feature Engineering → Optimization Engine → Simulation → Dashboard
+
+---
+
+## 📸 Dashboard Preview
+
+
+![Dashboard](assets/Screenshot_1.png)
+![Dashboard](assets/Screenshot_2.png)
+![Dashboard](assets/Screenshot_3.png)
 
 ---
 
