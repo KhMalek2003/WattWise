@@ -1,5 +1,24 @@
 # ⚡ WattWise — Energy Flexibility Optimization System
 
+
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-green)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
+![Status](https://img.shields.io/badge/Status-Completed-success)
+
+---
+
+## 📸 Dashboard Preview
+
+---
+
+assets/Screenshot_1.png
+assets/Screenshot_2.png
+assets/Screenshot_3.png
+
+---
+
+
 ## 📌 Overview
 
 WattWise is a data-driven energy system simulation that models how modern power grids balance electricity demand with renewable generation, storage, and backup supply.
@@ -7,6 +26,14 @@ WattWise is a data-driven energy system simulation that models how modern power 
 The system uses real-world energy data to analyze demand patterns, evaluate renewable variability, and simulate intelligent energy management decisions.
 
 This project reflects real challenges faced by companies like Siemens Energy in managing renewable-heavy grids.
+
+---
+
+## 🧠 System Architecture
+
+---
+
+Raw Data → Data Loader → Feature Engineering → Optimization Engine → Simulation → Dashboard
 
 ---
 
