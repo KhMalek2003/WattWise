@@ -50,7 +50,7 @@ Raw Data → Data Loader → Feature Engineering → Optimization Engine → Sim
 ## 🧱 Project Structure
 
 ```
-project/
+WATTWISE/
 │── data/
 │── notebooks/
 │── src/
