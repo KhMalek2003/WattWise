@@ -12,9 +12,9 @@
 
 ---
 
-assets/Screenshot_1.png
-assets/Screenshot_2.png
-assets/Screenshot_3.png
+![Dashboard](assets/Screenshot_1.png)
+![Dashboard](assets/Screenshot_2.png)
+![Dashboard](assets/Screenshot_3.png)
 
 ---
 
