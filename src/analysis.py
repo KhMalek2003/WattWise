@@ -1,7 +1,6 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from data_loader import load_energy_data
+from src.data_loader import load_energy_data
 
 
 def run_eda():

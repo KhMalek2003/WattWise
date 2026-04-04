@@ -12,10 +12,18 @@ def load_energy_data(path=None):
     if not csv_path.is_absolute():
         csv_path = (PROJECT_ROOT / csv_path).resolve()
 
-    df = pd.read_csv(csv_path)
+    columns_to_keep = [
+        "utc_timestamp",
+        "DE_load_actual_entsoe_transparency",
+        "DE_solar_generation_actual",
+        "DE_wind_onshore_generation_actual",
+    ]
 
-    # Convert utc_timestamp columns into pandas datetime objects(from txt to pandas datetime values)
-    df["utc_timestamp"] = pd.to_datetime(df["utc_timestamp"])
+    df = pd.read_csv(
+        csv_path,
+        usecols=columns_to_keep,
+        parse_dates=["utc_timestamp"],
+    )
 
     # Set time as index for time series analysis
     df = df.set_index("utc_timestamp")

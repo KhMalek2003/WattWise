@@ -1,5 +1,4 @@
-import pandas as pd
-from feature_engineering import create_features
+from src.feature_engineering import create_features
 
 
 def run_optimization(df=None):
@@ -15,70 +14,67 @@ def run_optimization(df=None):
     actions = []
     grid_supplies = []
     total_supplies = []
+    balances = []
+    battery_flows = []
 
-    for i, row in df.iterrows():
-        renewable = row["renewable"]
-        load = row["load"]
-
+    for i, renewable, load in zip(
+        df.index, df["renewable"].to_numpy(), df["load"].to_numpy()
+    ):
         # Simulate grid backup (gas plants, nuclear, hydro,core)
 
         max_grid_capacity = 50000  # max backup power
-        response_factor = (
-            0.8  # how much of the needed power can be supplied by the grid
-        )
-        reserve_margin = 10000  # extra production buffer
-        needed = load - renewable + reserve_margin
-        if needed > 0:
-            grid_supply = min(needed * response_factor, max_grid_capacity)
-        else:
-            grid_supply = 0
-
-        total_supply = renewable + grid_supply
-        balance = total_supply - load
-        df.at[i, "balance"] = balance  # Store balance as the total supply - load
+        raw_balance = renewable - load
+        grid_supply = 0
+        battery_flow = 0
 
         # --------------------------------
-        # Case 1: Surplus -> Store energy
+        # Case 1: Surplus renewable -> Store energy(charge battery)
         # --------------------------------
-        if balance > 0:
-            charge = min(balance, battery_capacity - battery_level)
+        if raw_balance > 0:
+            charge = min(raw_balance, battery_capacity - battery_level)
             battery_level += charge
+            battery_flow = charge
             action = "store"
 
         # --------------------------------
         # Case 2: Deficit -> Use Battery
         # --------------------------------
-        elif balance < 0:
-            discharge = min(abs(balance), battery_level)
+        elif raw_balance < 0:
+            deficit = abs(raw_balance)
+            discharge = min(deficit, battery_level)
             battery_level -= discharge
-            action = "use_battery"
+            battery_flow = -discharge
+            remaining_deficit = deficit - discharge
+            grid_supply = min(remaining_deficit, max_grid_capacity)
+
+            if discharge > 0:
+                action = "use_battery"
+            elif grid_supply > 0:
+                action = "use_grid"
+            else:
+                action = "unserved"
 
         else:
             action = "idle"
 
+        battery_discharge = max(-battery_flow, 0)
+
+        total_supply = renewable + grid_supply + battery_discharge
+        balance = total_supply - load
+
         grid_supplies.append(grid_supply)
         total_supplies.append(total_supply)
+        balances.append(balance)
         battery_levels.append(battery_level)
+        battery_flows.append(battery_flow)
         actions.append(action)
 
     df["grid_supply"] = grid_supplies
     df["total_supply"] = total_supplies
+    df["balance"] = balances
     df["battery_level"] = battery_levels
+    df["battery_flow"] = battery_flows
     df["action"] = actions
-
-    print(
-        df[
-            [
-                "grid_supply",
-                "renewable",
-                "total_supply",
-                "load",
-                "balance",
-                "battery_level",
-                "action",
-            ]
-        ].head(20)
-    )
 
     return df
 

@@ -1,16 +1,12 @@
-import pandas as pd
-from data_loader import load_energy_data
+from src.data_loader import load_energy_data
 
 
 def create_features():
     df = load_energy_data()
 
     # Handle missing values
-    df = df.fillna(method="ffill")
-    df = df.fillna(
-        method="bfill"
-    )  # In case there are still missing values at the start
-    print("Missing values after cleaning:\n", df.isnull().sum())
+    df = df.ffill().bfill()
+
     # -----------------------
     # 1. Total Renewable Energy Supply
     # -----------------------
@@ -42,22 +38,6 @@ def create_features():
 
     df["hour"] = df.index.hour
     df["is_peak"] = df["hour"].isin([8, 9, 10, 17, 18, 19])
-
-    print(
-        df[
-            [
-                "load",
-                "solar",
-                "wind",
-                "renewable",
-                "renewable_balance",
-                "ratio",
-                "deficit",
-                "surplus",
-                "is_peak",
-            ]
-        ].head()
-    )
     return df
 
 
